@@ -150,20 +150,13 @@ def calculate_fc_C(subset, z, p):
         sum_elements = sum_elements + vec_denominators[element]
 
     if sum_elements % aux == 0:
-        sum_elements /= aux
-        sum_elements %= p
-        if sum_elements == 0:
-            b = time.time()
-            return 0, (b - a)
+        b = time.time()
+        return (sum_elements / aux) % p, (b - a)
     else:
         if inverse_modular(aux, p) != -1:
             sum_elements = sum_elements * inverse_modular(aux, p)
-            if sum_elements == 0:
-                b = time.time()
-                return 0, (b - a)
-
-    b = time.time()
-    return 1, (b - a)
+            b = time.time()
+            return sum_elements, (b - a)
 
 
 def multiply_polynom(A, B, m, n, p):
@@ -212,6 +205,7 @@ def find_message(z, subset, p):
 
     return temp_polynom
 
+
 print()
 print("Decoding")
 z = []
@@ -253,10 +247,9 @@ print()
 print()
 print("SECOND TEST ")
 
-
 second_message = []
 for i in range(0, 2):
-    second_message.append(Crypto.Util.number.getRandomRange(0,p, randfunc=None))
+    second_message.append(Crypto.Util.number.getRandomRange(0, p, randfunc=None))
 
 y = []
 while i <= n:
@@ -272,7 +265,6 @@ print(f"s={s}")
 print(f"y={y}")
 print()
 
-
 print("Decoding")
 z = []
 z = y
@@ -280,7 +272,7 @@ random_index = random.randint(0, len(z) - 1)
 print("Error at index :" + str(random_index))
 old_val = z[random_index]
 while z[random_index] == old_val:
-    z[random_index] = Crypto.Util.number.getRandomRange(0,p)
+    z[random_index] = Crypto.Util.number.getRandomRange(0, p)
 
 print(f"z={z}")
 index_set = [random_index]
